@@ -12,21 +12,25 @@ public class Tablero {
 	}
 	public void Iniciar() {
 		int num1=1;
-		int num2=2;
+		int num2=3;
+		int num3=3;
 		Random aleatorio = new Random();
 		int Fila1 = aleatorio.nextInt(4);
 		int Columna1 = aleatorio.nextInt(4);
 		int Fila2 = aleatorio.nextInt(4);
 		int Columna2 = aleatorio.nextInt(4);
-		System.out.println(Fila1+ "-"+ Columna1+ "-"+ num1);
-		System.out.println(Fila2+ "-"+ Columna2+ "-"+num2);
-		System.out.println();
-		tablero[Fila1][Columna1]= num1;
+		//System.out.println(Fila1+ "-"+ Columna1+ "-"+ num1);
+		//System.out.println(Fila2+ "-"+ Columna2+ "-"+num2);
+		//System.out.println();
+		tablero[0][2]= num1;
 		while (!estaVacio(Fila2, Columna2)) {
 			Fila2 = aleatorio.nextInt(4);
 			Columna2 = aleatorio.nextInt(4);
 		}	
-		tablero[Fila2][Columna2]= num2;
+		tablero[0][1]= num2;
+		tablero[0][0]= num3;
+		tablero[1][3]=2;
+		tablero[1][2]=2;
 	}
 
 	public void Imprimir() {
@@ -63,8 +67,10 @@ public class Tablero {
 					movio=true;
 					j--;
 				}
-				else 
+				else {
+					fila[j]=tablero[i][j];
 					j--;
+				}
 			}
 			if (movio) {
 				for (int k=0;k<4;k++) {
@@ -79,5 +85,11 @@ public class Tablero {
 		if (a==1 && b==2 || a==2 && b==1)
 			return true;
 		return false;
+	}
+	public int getValor(int a, int b) {
+		return tablero[a][b];
+	}
+	public int[][] getTablero() {
+		return tablero;
 	}
 	}
