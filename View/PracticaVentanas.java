@@ -16,7 +16,7 @@ public class PracticaVentanas {
 			for(int c = 0; c < m[0].length; c++ ) {
 				m[f][c] = m[f+1][c];
 			}
-		}for(int c = 0; c < m[0].length-1; c++) {
+		}for(int c = 0; c < m[0].length; c++) {
 			m[3][c] = 0;
 		}
 	}
@@ -26,7 +26,7 @@ public class PracticaVentanas {
 			for(int c = 0; c < m[0].length; c++ ) {
 				m[f][c] = m[f-1][c];
 			}
-		}for(int c = 0; c < m[0].length-1; c++) {
+		}for(int c = 0; c < m[0].length; c++) {
 			m[0][c] = 0;
 		}
 	}
@@ -43,10 +43,10 @@ public class PracticaVentanas {
 	
 	public static void moverPorColumnasIzquierda(int[][] m) {
 		for(int c = 0; c < m[0].length-1; c++ ) {
-			for(int f = 0; f < m.length-1; f++) {
+			for(int f = 0; f < m.length; f++) {
 				m[f][c] = m[f][c+1];
 			}
-		}for(int f = 0; f < m[0].length-1; f++) {
+		}for(int f = 0; f < m.length; f++) {
 			m[f][3] = 0;
 		}
 	}
