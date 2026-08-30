@@ -1,12 +1,16 @@
 package Model;
 
-public class Juego {
+public class Juego1 {
 	private Tablero tablero;
 	
-	public Juego() {
+	public Juego1() {
 		tablero = new Tablero();
 	}
 	public void Mostrar() {
+		tablero.Imprimir();
+		tablero.moverIzquierda();
+		tablero.Imprimir();
+		tablero.moverArriba();
 		tablero.Imprimir();
 		tablero.moverDerecha();
 		tablero.Imprimir();
@@ -17,7 +21,7 @@ public class Juego {
 	}
 	
 	public static void main(String[] args){
-		Juego juego = new Juego();
+		Juego1 juego = new Juego1();
 		juego.Mostrar();
 	}
 }
