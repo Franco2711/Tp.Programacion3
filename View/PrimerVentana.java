@@ -53,8 +53,15 @@ public class PrimerVentana {
 		}
 	}
 	
-	public void actualizarInterfaz() {
-		
+	public void actualizarInterfaz(JTextPane[] panel) {
+		int cont = 0;
+		for(int f = 0; f < PracticaVentanas.m.length; f++) {
+			for(int c = 0; c < PracticaVentanas.m[0].length; c++) {
+				panel[cont].setText(PracticaVentanas.getM(PracticaVentanas.m, f, c));
+				panel[cont].setBackground(cambiarColor(panel[cont].getText()));
+				cont++;
+			}
+		}
 	}
 	
 	private JFrame frame;
@@ -211,14 +218,8 @@ public class PrimerVentana {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 					PracticaVentanas.moverPorFilasArriba(PracticaVentanas.m);
-					int cont = 0;
-					for(int f = 0; f < PracticaVentanas.m.length; f++) {
-						for(int c = 0; c < PracticaVentanas.m[0].length; c++) {
-							jPanes[cont].setText(PracticaVentanas.getM(PracticaVentanas.m, f, c));
-							jPanes[cont].setBackground(cambiarColor(jPanes[cont].getText()));
-							cont++;
-						}
-					}
+					actualizarInterfaz(jPanes);
+
 				}
 		};
 		
@@ -226,14 +227,7 @@ public class PrimerVentana {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 					PracticaVentanas.moverPorFilasAbajo(PracticaVentanas.m);
-					int cont = 0;
-					for(int f = 0; f < PracticaVentanas.m.length; f++) {
-						for(int c = 0; c < PracticaVentanas.m[0].length; c++) {
-							jPanes[cont].setText(PracticaVentanas.getM(PracticaVentanas.m, f, c));
-							jPanes[cont].setBackground(cambiarColor(jPanes[cont].getText()));
-							cont++;
-						}
-					}
+					actualizarInterfaz(jPanes);
 				}
 		};		
 		
@@ -241,14 +235,7 @@ public class PrimerVentana {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 					PracticaVentanas.moverPorColumnasDerecha(PracticaVentanas.m);
-					int cont = 0;
-					for(int f = 0; f < PracticaVentanas.m.length; f++) {
-						for(int c = 0; c < PracticaVentanas.m[0].length; c++) {
-							jPanes[cont].setText(PracticaVentanas.getM(PracticaVentanas.m, f, c));
-							jPanes[cont].setBackground(cambiarColor(jPanes[cont].getText()));
-							cont++;
-						}
-					}
+					actualizarInterfaz(jPanes);
 				}
 		};		
 		
@@ -256,14 +243,7 @@ public class PrimerVentana {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 					PracticaVentanas.moverPorColumnasIzquierda(PracticaVentanas.m);
-					int cont = 0;
-					for(int f = 0; f < PracticaVentanas.m.length; f++) {
-						for(int c = 0; c < PracticaVentanas.m[0].length; c++) {
-							jPanes[cont].setText(PracticaVentanas.getM(PracticaVentanas.m, f, c));
-							jPanes[cont].setBackground(cambiarColor(jPanes[cont].getText()));
-							cont++;
-						}
-					}
+					actualizarInterfaz(jPanes);
 				}
 		};		
 		
