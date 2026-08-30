@@ -8,6 +8,7 @@ import javax.swing.JTextField;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JProgressBar;
@@ -17,6 +18,9 @@ import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
+import View.PracticaVentanas;
+
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -26,6 +30,9 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JSeparator;
 import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.DropMode;
 import java.awt.Color;
@@ -200,24 +207,49 @@ public class PrimerVentana {
 		JTextPane[] jPanes = {f0c0, f0c1, f0c2, f0c3, f1c0, f1c1, f1c2, f1c3,
 							  f2c0, f2c1, f2c2, f2c3, f3c0, f3c1, f3c2, f3c3};
 		
-		//inputMap.get
-		
-		JButton BotonArriba = new JButton("Arriba");
-		BotonArriba.addActionListener(new ActionListener() {
+		Action flechaArriba = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				PracticaVentanas.moverPorFilas(PracticaVentanas.m);
-				int cont = 0;
-				for(int f = 0; f < PracticaVentanas.m.length; f++) {
-					for(int c = 0; c < PracticaVentanas.m[0].length; c++) {
-						jPanes[cont].setText(PracticaVentanas.getM(PracticaVentanas.m, f, c));
-						jPanes[cont].setBackground(cambiarColor(jPanes[cont].getText()));
-						cont++;
+					PracticaVentanas.moverPorFilas(PracticaVentanas.m);
+					System.out.println("Flecha arriba");
+					int cont = 0;
+					for(int f = 0; f < PracticaVentanas.m.length; f++) {
+						for(int c = 0; c < PracticaVentanas.m[0].length; c++) {
+							jPanes[cont].setText(PracticaVentanas.getM(PracticaVentanas.m, f, c));
+							jPanes[cont].setBackground(cambiarColor(jPanes[cont].getText()));
+							cont++;
+						}
 					}
 				}
-			}
-		});
-		BotonArriba.setBounds(434, 366, 89, 23);
-		frame.getContentPane().add(BotonArriba);
+		};		
+		
+		frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+			.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "flechaArriba");
+		
+		frame.setFocusable(true); frame.requestFocusInWindow();
+		
+		frame.getRootPane().getActionMap().put("flechaArriba", flechaArriba);
+		
+		frame.setVisible(true);
+		
+		
+		
+//		JButton BotonArriba = new JButton("Arriba");
+//		BotonArriba.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				PracticaVentanas.moverPorFilas(PracticaVentanas.m);
+//				int cont = 0;
+//				for(int f = 0; f < PracticaVentanas.m.length; f++) {
+//					for(int c = 0; c < PracticaVentanas.m[0].length; c++) {
+//						jPanes[cont].setText(PracticaVentanas.getM(PracticaVentanas.m, f, c));
+//						jPanes[cont].setBackground(cambiarColor(jPanes[cont].getText()));
+//						cont++;
+//					}
+//				}
+//			}
+//		});
+//		BotonArriba.setBounds(434, 366, 89, 23);
+//		frame.getContentPane().add(BotonArriba);
 		
 		
 	}
