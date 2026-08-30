@@ -11,13 +11,43 @@ public class PracticaVentanas {
 		return String.valueOf(m[f][c]);
 	}
 	
-	public static void moverPorFilas(int[][] m) {
+	public static void moverPorFilasArriba(int[][] m) {
 		for(int f = 0; f < m.length-1; f++) {
 			for(int c = 0; c < m[0].length; c++ ) {
 				m[f][c] = m[f+1][c];
 			}
 		}for(int c = 0; c < m[0].length-1; c++) {
 			m[3][c] = 0;
+		}
+	}
+	
+	public static void moverPorFilasAbajo(int[][] m) {
+		for(int f = 3; f > 0; f--) {
+			for(int c = 0; c < m[0].length; c++ ) {
+				m[f][c] = m[f-1][c];
+			}
+		}for(int c = 0; c < m[0].length-1; c++) {
+			m[0][c] = 0;
+		}
+	}
+	
+	public static void moverPorColumnasDerecha(int[][] m) {
+		for(int c = 3; c > 0; c-- ) {
+			for(int f = 0; f < m.length; f++) {
+				m[f][c] = m[f][c-1];
+			}
+		}for(int f = 0; f < m.length; f++) {
+			m[f][0] = 0;
+		}
+	}
+	
+	public static void moverPorColumnasIzquierda(int[][] m) {
+		for(int c = 0; c < m[0].length-1; c++ ) {
+			for(int f = 0; f < m.length-1; f++) {
+				m[f][c] = m[f][c+1];
+			}
+		}for(int f = 0; f < m[0].length-1; f++) {
+			m[f][3] = 0;
 		}
 	}
 	public static void imprimirMatriz(int[][] m) {
@@ -37,7 +67,7 @@ public static void main(String[] args) {
 	  		 {0,0,0,0}};
 	
 	imprimirMatriz(mat);
-	moverPorFilas(mat);
+	moverPorColumnasIzquierda(mat);
 	imprimirMatriz(mat);
 
 	}

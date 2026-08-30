@@ -210,8 +210,52 @@ public class PrimerVentana {
 		Action flechaArriba = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					PracticaVentanas.moverPorFilas(PracticaVentanas.m);
-					System.out.println("Flecha arriba");
+					PracticaVentanas.moverPorFilasArriba(PracticaVentanas.m);
+					int cont = 0;
+					for(int f = 0; f < PracticaVentanas.m.length; f++) {
+						for(int c = 0; c < PracticaVentanas.m[0].length; c++) {
+							jPanes[cont].setText(PracticaVentanas.getM(PracticaVentanas.m, f, c));
+							jPanes[cont].setBackground(cambiarColor(jPanes[cont].getText()));
+							cont++;
+						}
+					}
+				}
+		};
+		
+		Action flechaAbajo = new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					PracticaVentanas.moverPorFilasAbajo(PracticaVentanas.m);
+					int cont = 0;
+					for(int f = 0; f < PracticaVentanas.m.length; f++) {
+						for(int c = 0; c < PracticaVentanas.m[0].length; c++) {
+							jPanes[cont].setText(PracticaVentanas.getM(PracticaVentanas.m, f, c));
+							jPanes[cont].setBackground(cambiarColor(jPanes[cont].getText()));
+							cont++;
+						}
+					}
+				}
+		};		
+		
+		Action flechaDerecha = new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					PracticaVentanas.moverPorColumnasDerecha(PracticaVentanas.m);
+					int cont = 0;
+					for(int f = 0; f < PracticaVentanas.m.length; f++) {
+						for(int c = 0; c < PracticaVentanas.m[0].length; c++) {
+							jPanes[cont].setText(PracticaVentanas.getM(PracticaVentanas.m, f, c));
+							jPanes[cont].setBackground(cambiarColor(jPanes[cont].getText()));
+							cont++;
+						}
+					}
+				}
+		};		
+		
+		Action flechaIzquierda = new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					PracticaVentanas.moverPorColumnasIzquierda(PracticaVentanas.m);
 					int cont = 0;
 					for(int f = 0; f < PracticaVentanas.m.length; f++) {
 						for(int c = 0; c < PracticaVentanas.m[0].length; c++) {
@@ -226,11 +270,27 @@ public class PrimerVentana {
 		frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
 			.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "flechaArriba");
 		
-		frame.setFocusable(true); frame.requestFocusInWindow();
-		
 		frame.getRootPane().getActionMap().put("flechaArriba", flechaArriba);
 		
+		frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+		.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "flechaAbajo");
+	
+		frame.getRootPane().getActionMap().put("flechaAbajo", flechaAbajo);
+		
+		frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+		.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "flechaDerecha");
+	
+		frame.getRootPane().getActionMap().put("flechaDerecha", flechaDerecha);
+		
+		frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+		.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "flechaIzquierda");
+	
+		frame.getRootPane().getActionMap().put("flechaIzquierda", flechaIzquierda);
+		
+		frame.setFocusable(true); frame.requestFocusInWindow();
+		
 		frame.setVisible(true);
+		
 		
 		
 		
