@@ -16,10 +16,21 @@ public class PracticaVentanas {
 	public static void moverPorFilasArriba(int[][] m, int valorNuevo) {
 		for(int f = 0; f < m.length-1; f++) {
 			for(int c = 0; c < m[0].length; c++ ) {
-				m[f][c] = m[f+1][c];
+				if(m[f][c] == 0) {
+					m[f][c] = m[f+1][c];
+					m[f+1][c] = 0;
+				}else if((m[f][c] == 1 && m[f+1][c] == 2) || (m[f][c] == 2 && m[f+1][c] == 1)) {
+					m[f][c] = 3;
+					m[f-1][c] = 0;
+				}else if(m[f][c] == m[f+1][c] && m[f][c] != 1 && m[f][c] != 2) {
+					m[f][c] = m[f][c]+m[f+1][c];
+					m[f+1][c] = 0;
+				}
 			}
 		}for(int c = 0; c < m[0].length; c++) {
-			m[3][c] = 0;
+			if(m[3][c] == 0) {
+				m[3][c] = 0;
+			}
 		}int valor = valorNuevo;
 		int posicion = nuevaPosicionAIntertar();
 		while(m[3][posicion] != 0) {
@@ -30,10 +41,21 @@ public class PracticaVentanas {
 	public static void moverPorFilasAbajo(int[][] m, int valorNuevo) {
 		for(int f = 3; f > 0; f--) {
 			for(int c = 0; c < m[0].length; c++ ) {
-				m[f][c] = m[f-1][c];
+				if(m[f][c] == 0) {
+					m[f][c] = m[f-1][c];
+					m[f-1][c] = 0;
+				}else if((m[f][c] == 1 && m[f-1][c] == 2) || (m[f][c] == 2 && m[f-1][c] == 1)) {
+					m[f][c] = 3;
+					m[f-1][c] = 0;
+				}else if(m[f][c] == m[f-1][c] && m[f][c] != 1 && m[f][c] != 2) {
+					m[f][c] = m[f][c]+m[f-1][c];
+					m[f-1][c] = 0;
+				}
 			}
 		}for(int c = 0; c < m[0].length; c++) {
-			m[0][c] = 0;
+			if(m[0][c] == 0) {
+				m[0][c] = 0;
+			}
 		}int valor = valorNuevo;
 		int posicion = nuevaPosicionAIntertar();
 		while(m[0][posicion] != 0) {
@@ -44,10 +66,21 @@ public class PracticaVentanas {
 	public static void moverPorColumnasDerecha(int[][] m, int valorNuevo) {
 		for(int c = 3; c > 0; c-- ) {
 			for(int f = 0; f < m.length; f++) {
-				m[f][c] = m[f][c-1];
+				if(m[f][c] == 0) {
+					m[f][c] = m[f][c-1];
+					m[f][c-1] = 0;
+				}else if((m[f][c] == 1 && m[f][c-1] == 2) || (m[f][c] == 2 && m[f][c-1] == 1)) {
+					m[f][c] = 3;
+					m[f][c-1] = 0;
+				}else if(m[f][c] == m[f][c-1] && m[f][c] != 1 && m[f][c] != 2) {
+					m[f][c] = m[f][c]+m[f][c-1];
+					m[f][c-1] = 0;
+				}			
 			}
 		}for(int f = 0; f < m.length; f++) {
-			m[f][0] = 0;
+			if(m[f][0] == 0) {
+				m[f][0] = 0;
+			}
 		}int valor = valorNuevo;
 		int posicion = nuevaPosicionAIntertar();
 		while(m[posicion][0] != 0) {
@@ -58,10 +91,21 @@ public class PracticaVentanas {
 	public static void moverPorColumnasIzquierda(int[][] m, int valorNuevo) {
 		for(int c = 0; c < m[0].length-1; c++ ) {
 			for(int f = 0; f < m.length; f++) {
-				m[f][c] = m[f][c+1];
+				if(m[f][c] == 0) {
+					m[f][c] = m[f][c+1];
+					m[f][c+1] = 0;
+				}else if((m[f][c] == 1 && m[f][c+1] == 2) || (m[f][c] == 2 && m[f][c+1] == 1)) {
+					m[f][c] = 3;
+					m[f][c+1] = 0;
+				}else if(m[f][c] == m[f][c+1] && m[f][c] != 1 && m[f][c] != 2) {
+					m[f][c] = m[f][c]+m[f][c+1];
+					m[f][c+1] = 0;
+				}
 			}
 		}for(int f = 0; f < m.length; f++) {
-			m[f][3] = 0;
+			if(m[f][3] == 0) {
+				m[f][3] = 0;
+			}
 		}int valor = valorNuevo;
 		int posicion = nuevaPosicionAIntertar();
 		while(m[posicion][3] != 0) {
