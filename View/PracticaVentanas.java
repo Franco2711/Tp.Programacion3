@@ -13,56 +13,56 @@ public class PracticaVentanas {
 		return String.valueOf(m[f][c]);
 	}
 	
-	public static void moverPorFilasArriba(int[][] m) {
+	public static void moverPorFilasArriba(int[][] m, int valorNuevo) {
 		for(int f = 0; f < m.length-1; f++) {
 			for(int c = 0; c < m[0].length; c++ ) {
 				m[f][c] = m[f+1][c];
 			}
 		}for(int c = 0; c < m[0].length; c++) {
 			m[3][c] = 0;
-		}int valor = nuevoNumeroAInsertar();
+		}int valor = valorNuevo;
 		int posicion = nuevaPosicionAIntertar();
 		while(m[3][posicion] != 0) {
 			posicion = nuevaPosicionAIntertar();
 		}m[3][posicion] = valor;
 	}
 	
-	public static void moverPorFilasAbajo(int[][] m) {
+	public static void moverPorFilasAbajo(int[][] m, int valorNuevo) {
 		for(int f = 3; f > 0; f--) {
 			for(int c = 0; c < m[0].length; c++ ) {
 				m[f][c] = m[f-1][c];
 			}
 		}for(int c = 0; c < m[0].length; c++) {
 			m[0][c] = 0;
-		}int valor = nuevoNumeroAInsertar();
+		}int valor = valorNuevo;
 		int posicion = nuevaPosicionAIntertar();
 		while(m[0][posicion] != 0) {
 			posicion = nuevaPosicionAIntertar();
 		}m[0][posicion] = valor;
 	}
 	
-	public static void moverPorColumnasDerecha(int[][] m) {
+	public static void moverPorColumnasDerecha(int[][] m, int valorNuevo) {
 		for(int c = 3; c > 0; c-- ) {
 			for(int f = 0; f < m.length; f++) {
 				m[f][c] = m[f][c-1];
 			}
 		}for(int f = 0; f < m.length; f++) {
 			m[f][0] = 0;
-		}int valor = nuevoNumeroAInsertar();
+		}int valor = valorNuevo;
 		int posicion = nuevaPosicionAIntertar();
 		while(m[posicion][0] != 0) {
 			posicion = nuevaPosicionAIntertar();
 		}m[posicion][0] = valor;
 	}
 	
-	public static void moverPorColumnasIzquierda(int[][] m) {
+	public static void moverPorColumnasIzquierda(int[][] m, int valorNuevo) {
 		for(int c = 0; c < m[0].length-1; c++ ) {
 			for(int f = 0; f < m.length; f++) {
 				m[f][c] = m[f][c+1];
 			}
 		}for(int f = 0; f < m.length; f++) {
 			m[f][3] = 0;
-		}int valor = nuevoNumeroAInsertar();
+		}int valor = valorNuevo;
 		int posicion = nuevaPosicionAIntertar();
 		while(m[posicion][3] != 0) {
 			posicion = nuevaPosicionAIntertar();
@@ -114,7 +114,7 @@ public static void main(String[] args) {
 	  		 {0,0,0,0}};
 	
 	imprimirMatriz(mat);
-	moverPorColumnasIzquierda(mat);
+	//moverPorColumnasIzquierda(mat);
 	imprimirMatriz(mat);
 
 	}

@@ -61,10 +61,15 @@ public class PrimerVentana {
 				panel[cont].setBackground(cambiarColor(panel[cont].getText()));
 				cont++;
 			}
-		}
+		}nuevoValor = PracticaVentanas.nuevoNumeroAInsertar();
+		panel[cont].setText(String.valueOf(nuevoValor));
 	}
 	
+	int nuevoValor = PracticaVentanas.nuevoNumeroAInsertar();
+	String nuevoValorString = String.valueOf(nuevoValor);
+	
 	private JFrame frame;
+	private JTextField siguienteNumero;
 
 	//InputMap inputMap = frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 	//ActionMap actionMap = frame.getRootPane().getActionMap();
@@ -211,22 +216,33 @@ public class PrimerVentana {
 		f3c3.setBounds(220, 224, 60, 60);
 		frame.getContentPane().add(f3c3);
 		
+		siguienteNumero = new JTextField();
+		siguienteNumero.setText("Siguiente número:");
+		siguienteNumero.setBounds(313, 79, 131, 20);
+		frame.getContentPane().add(siguienteNumero);
+		siguienteNumero.setColumns(10);
+		
+		JTextPane valorSiguienteNumero = new JTextPane();
+		valorSiguienteNumero.setText(nuevoValorString);
+		valorSiguienteNumero.setBounds(465, 47, 60, 55);
+		frame.getContentPane().add(valorSiguienteNumero);
+		
 		JTextPane[] jPanes = {f0c0, f0c1, f0c2, f0c3, f1c0, f1c1, f1c2, f1c3,
-							  f2c0, f2c1, f2c2, f2c3, f3c0, f3c1, f3c2, f3c3};
+							  f2c0, f2c1, f2c2, f2c3, f3c0, f3c1, f3c2, f3c3, valorSiguienteNumero};
 		
 		Action flechaArriba = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					PracticaVentanas.moverPorFilasArriba(PracticaVentanas.m);
+					PracticaVentanas.moverPorFilasArriba(PracticaVentanas.m, nuevoValor);
 					actualizarInterfaz(jPanes);
-
+					
 				}
 		};
 		
 		Action flechaAbajo = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					PracticaVentanas.moverPorFilasAbajo(PracticaVentanas.m);
+					PracticaVentanas.moverPorFilasAbajo(PracticaVentanas.m, nuevoValor);
 					actualizarInterfaz(jPanes);
 				}
 		};		
@@ -234,7 +250,7 @@ public class PrimerVentana {
 		Action flechaDerecha = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					PracticaVentanas.moverPorColumnasDerecha(PracticaVentanas.m);
+					PracticaVentanas.moverPorColumnasDerecha(PracticaVentanas.m, nuevoValor);
 					actualizarInterfaz(jPanes);
 				}
 		};		
@@ -242,7 +258,7 @@ public class PrimerVentana {
 		Action flechaIzquierda = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					PracticaVentanas.moverPorColumnasIzquierda(PracticaVentanas.m);
+					PracticaVentanas.moverPorColumnasIzquierda(PracticaVentanas.m, nuevoValor);
 					actualizarInterfaz(jPanes);
 				}
 		};		
