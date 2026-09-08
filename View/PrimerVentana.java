@@ -20,6 +20,9 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
 import View.PracticaVentanas;
+import View.PrimerVentana;
+import View.SeguntaVentana;
+import View.TerceraVentana;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
@@ -49,7 +52,7 @@ public class PrimerVentana {
 		}else if(valor.equals("3")) {
 			return Color.red;
 		}else {
-		return Color.BLUE;
+		return Color.cyan;
 		}
 	}
 	
@@ -63,16 +66,27 @@ public class PrimerVentana {
 			}
 		}nuevoValor = PracticaVentanas.nuevoNumeroAInsertar();
 		panel[cont].setText(String.valueOf(nuevoValor));
+		cont++;
+		panel[cont].setText(String.valueOf(PracticaVentanas.puntaje));
+		
+	}
+	
+	public String getValorPuntaje(JTextPane panel) {
+		return panel.getText();
+	}
+	
+	public void llamarPantallaParaIngresarPuntaje() {
+		TerceraVentana window = new TerceraVentana();
+		window.setVisible(true);
 	}
 	
 	int nuevoValor = PracticaVentanas.nuevoNumeroAInsertar();
 	String nuevoValorString = String.valueOf(nuevoValor);
+	boolean haySiguienteMovimiento = true;
 	
-	private JFrame frame;
-	private JTextField siguienteNumero;
-
-	//InputMap inputMap = frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-	//ActionMap actionMap = frame.getRootPane().getActionMap();
+	private JFrame frame;	
+	private JTextField txtSiguienteNmero;
+	private JTextField textoPuntaje;
 	
 	
 	/**
@@ -96,7 +110,7 @@ public class PrimerVentana {
 	 */
 	public PrimerVentana() {
 		initialize();
-	}
+	}	
 	
 	private void initialize() {
 		frame = new JFrame();
@@ -216,51 +230,107 @@ public class PrimerVentana {
 		f3c3.setBounds(220, 224, 60, 60);
 		frame.getContentPane().add(f3c3);
 		
-		siguienteNumero = new JTextField();
-		siguienteNumero.setText("Siguiente número:");
-		siguienteNumero.setBounds(313, 79, 131, 20);
-		frame.getContentPane().add(siguienteNumero);
-		siguienteNumero.setColumns(10);
+		txtSiguienteNmero = new JTextField();
+		txtSiguienteNmero.setText("Siguiente Número:");
+		txtSiguienteNmero.setBounds(339, 62, 123, 20);
+		frame.getContentPane().add(txtSiguienteNmero);
+		txtSiguienteNmero.setColumns(10);
 		
 		JTextPane valorSiguienteNumero = new JTextPane();
 		valorSiguienteNumero.setText(nuevoValorString);
-		valorSiguienteNumero.setBounds(465, 47, 60, 55);
+		valorSiguienteNumero.setBounds(483, 34, 44, 48);
 		frame.getContentPane().add(valorSiguienteNumero);
 		
+		textoPuntaje = new JTextField();
+		textoPuntaje.setText("Puntaje:");
+		textoPuntaje.setBounds(339, 122, 123, 20);
+		frame.getContentPane().add(textoPuntaje);
+		textoPuntaje.setColumns(10);
+		
+		JTextPane valorPuntaje = new JTextPane();
+		valorPuntaje.setText("0");
+		valorPuntaje.setBounds(483, 94, 44, 48);
+		frame.getContentPane().add(valorPuntaje);
+		
+		JButton botonHistorialPuntajes = new JButton("Puntajes");
+		botonHistorialPuntajes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SeguntaVentana window = new SeguntaVentana();
+				window.setVisible(true);
+				
+			}
+		});
+		
 		JTextPane[] jPanes = {f0c0, f0c1, f0c2, f0c3, f1c0, f1c1, f1c2, f1c3,
-							  f2c0, f2c1, f2c2, f2c3, f3c0, f3c1, f3c2, f3c3, valorSiguienteNumero};
+				  f2c0, f2c1, f2c2, f2c3, f3c0, f3c1, f3c2, f3c3, valorSiguienteNumero,valorPuntaje};
+		
+		botonHistorialPuntajes.setBounds(339, 190, 89, 23);
+		frame.getContentPane().add(botonHistorialPuntajes);
+		
+		JButton botonReiniciar = new JButton("Reiniciar Tablero");
+		botonReiniciar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PracticaVentanas.reiniciarTablero();
+				actualizarInterfaz(jPanes);
+				haySiguienteMovimiento = true;
+			}
+		});
+		botonReiniciar.setBounds(339, 247, 136, 23);
+		frame.getContentPane().add(botonReiniciar);
+		
+		
+		
 		
 		Action flechaArriba = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(haySiguienteMovimiento) {
 					PracticaVentanas.moverPorFilasArriba(PracticaVentanas.m, nuevoValor);
 					actualizarInterfaz(jPanes);
-					
+					haySiguienteMovimiento = PracticaVentanas.hayMovimientosDisponibles(PracticaVentanas.m);
+				}if(!haySiguienteMovimiento) {
+				llamarPantallaParaIngresarPuntaje();
 				}
+			}
 		};
 		
 		Action flechaAbajo = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(haySiguienteMovimiento) {
 					PracticaVentanas.moverPorFilasAbajo(PracticaVentanas.m, nuevoValor);
 					actualizarInterfaz(jPanes);
-				}
+					haySiguienteMovimiento = PracticaVentanas.hayMovimientosDisponibles(PracticaVentanas.m);
+				}if(!haySiguienteMovimiento) {
+					llamarPantallaParaIngresarPuntaje();
+			}
+			}
 		};		
 		
 		Action flechaDerecha = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(haySiguienteMovimiento) {
 					PracticaVentanas.moverPorColumnasDerecha(PracticaVentanas.m, nuevoValor);
 					actualizarInterfaz(jPanes);
+					haySiguienteMovimiento = PracticaVentanas.hayMovimientosDisponibles(PracticaVentanas.m);
+				}if(!haySiguienteMovimiento) {
+					llamarPantallaParaIngresarPuntaje();
 				}
+			}
 		};		
 		
 		Action flechaIzquierda = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if(haySiguienteMovimiento) {
 					PracticaVentanas.moverPorColumnasIzquierda(PracticaVentanas.m, nuevoValor);
 					actualizarInterfaz(jPanes);
+					haySiguienteMovimiento = PracticaVentanas.hayMovimientosDisponibles(PracticaVentanas.m);
+				}if(!haySiguienteMovimiento) {
+					llamarPantallaParaIngresarPuntaje();
 				}
+			}
 		};		
 		
 		frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
@@ -287,26 +357,7 @@ public class PrimerVentana {
 		
 		frame.setVisible(true);
 		
+
 		
-		
-		
-//		JButton BotonArriba = new JButton("Arriba");
-//		BotonArriba.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				PracticaVentanas.moverPorFilas(PracticaVentanas.m);
-//				int cont = 0;
-//				for(int f = 0; f < PracticaVentanas.m.length; f++) {
-//					for(int c = 0; c < PracticaVentanas.m[0].length; c++) {
-//						jPanes[cont].setText(PracticaVentanas.getM(PracticaVentanas.m, f, c));
-//						jPanes[cont].setBackground(cambiarColor(jPanes[cont].getText()));
-//						cont++;
-//					}
-//				}
-//			}
-//		});
-//		BotonArriba.setBounds(434, 366, 89, 23);
-//		frame.getContentPane().add(BotonArriba);
-		
-		
+		}
 	}
-}
