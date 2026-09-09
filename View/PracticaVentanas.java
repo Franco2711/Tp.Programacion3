@@ -1,5 +1,6 @@
 package View;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 public class PracticaVentanas {
@@ -25,20 +26,23 @@ public class PracticaVentanas {
 		}puntaje = 0;
 	}
 
-	static String[] historialDePuntajes = new String[] {"Franco", "1000", "Gonza", "800", "David", "600"};
+	//static String[] historialDePuntajes = new String[] {"Franco", "1000", "Gonza", "800", "David", "600"};
+	static LinkedList<String[]> historialDePuntajes = new LinkedList<>(
+			java.util.Arrays.asList(new String[] {"Franco", "1000"},
+									new String[] {"Gonza", "800"},
+									new String[] {"David", "600"}));
 
 	
 	public static void actualizarTablaDePuntajes(String nombre, String puntaje) {
-		for(int i = 1; i < historialDePuntajes.length; i+=2) {
-			if(Integer.parseInt(historialDePuntajes[i]) < Integer.parseInt(puntaje)) {
-				historialDePuntajes[i] = puntaje;
-				historialDePuntajes[i-1] = nombre;
+		String[] nuevo = {nombre, puntaje};
+		int cont = 0;
+		for(String[] arr : historialDePuntajes) {
+			if(Integer.parseInt(arr[1]) < Integer.parseInt(puntaje)) {
+				historialDePuntajes.add(cont, nuevo);
 				break;
-			}
-		}
-		
-	}
-		
+			}cont++;
+		}	
+	}	
 	
 	public static boolean puedenSumarse(int f, int c) {
 		if((f == 1 && c == 2) || (f == 2 && c == 1) || (f == c && f >= 3 && c >= 3)){
