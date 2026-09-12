@@ -32,7 +32,7 @@ public class Matriz {
 		return numeroNuevo;
 	}
 	
-	public static int nuevaPosicionAIntertar() {
+	public static int nuevaPosicionAInsertar() {
 		Random rand = new Random();
 		int numeroNuevo = rand.nextInt(4);
 		return numeroNuevo;
@@ -92,9 +92,9 @@ public class Matriz {
 	}
 	
 	public static void insertarFichaMovimientoArribaOAbajo(int[][] m, int fila, int valorNuevo) {
-		int posicion = nuevaPosicionAIntertar();
+		int posicion = nuevaPosicionAInsertar();
 		while(m[fila][posicion] != 0) {
-			posicion = nuevaPosicionAIntertar();
+			posicion = nuevaPosicionAInsertar();
 		}m[fila][posicion] = valorNuevo;
 	}
 	
@@ -149,9 +149,9 @@ public class Matriz {
 	}
 	
 	public static void insertarFichaMovimientoDerechaOIzquierda(int[][] m, int columna, int valorNuevo) {
-		int posicion = nuevaPosicionAIntertar();
+		int posicion = nuevaPosicionAInsertar();
 		while(m[posicion][columna] != 0) {
-			posicion = nuevaPosicionAIntertar();
+			posicion = nuevaPosicionAInsertar();
 		}m[posicion][columna] = valorNuevo;
 	}
 	

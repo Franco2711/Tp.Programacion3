@@ -24,6 +24,7 @@ public class Puntaje {
 		for(String[] arr : historialDePuntaje) {
 			if(Integer.parseInt(arr[1]) < Integer.parseInt(puntaje)) {
 				historialDePuntaje.add(cont, nuevo);
+				historialDePuntaje.removeLast();
 				break;
 			}cont++;
 		}	
