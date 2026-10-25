@@ -12,17 +12,16 @@ import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
-import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
 
 public class VentanaPrincipal {
 	private JFrame frame;	
-	private JTextField txtSiguienteNmero;
-	private JTextField textoPuntaje;
-	private int nuevoValor = Matriz.nuevoNumeroAInsertar();
-	private boolean haySiguienteMovimiento = true;
+	private Threes threes;
 		
 		public Color cambiarColor(String valor) {
 			if(valor.equals("0")) {
@@ -38,60 +37,37 @@ public class VentanaPrincipal {
 			}
 		}
 		
-		public void nuevoNumero() {
-			int nuevoNumeroAInsertar = Matriz.nuevoNumeroAInsertar();
-			while(nuevoNumeroAInsertar == nuevoValor) {
-				nuevoNumeroAInsertar = Matriz.nuevoNumeroAInsertar();
-			}nuevoValor = nuevoNumeroAInsertar;
-		}
-		
-		public void actualizarInterfaz(JTextPane[][] jPanes, JTextPane valorNuevo, JTextPane puntaje) {
+		public void actualizarInterfaz(JLabel[][] jPanes, JLabel valorNuevo) {
 			for(int f = 0; f < jPanes.length; f++) {
 				for(int c = 0; c < jPanes[0].length; c++) {
-					jPanes[f][c].setText(Matriz.getValorMatrizString(f, c));
-					jPanes[f][c].setBackground(cambiarColor(jPanes[f][c].getText()));
-				}
-			}nuevoNumero();
-			valorNuevo.setText(String.valueOf(nuevoValor));
-			puntaje.setText(String.valueOf(Puntaje.getPuntajeString()));
-			
-		}
-		
-		public String getValorPuntaje(JTextPane panel) {
-			return panel.getText();
-		}
-		
-		public void llamarVentanaJuegoTerminado() {
-			VentanaJuegoTerminado window = new VentanaJuegoTerminado();
-			window.setVisible(true);
-		}	
-		
-		/**
-		 * Launch the application.
-		 */
-		public static void main(String[] args) {
-			EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						VentanaPrincipal window = new VentanaPrincipal();
-						window.frame.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
+					if(threes.getValorFicha(f, c) != 0) {
+						jPanes[f][c].setText(String.valueOf(threes.getValorFicha(f, c)));
+						jPanes[f][c].setBackground(cambiarColor(jPanes[f][c].getText()));
+					}else if(threes.getValorFicha(f, c) == 0){
+						jPanes[f][c].setText("");
+						jPanes[f][c].setBackground(cambiarColor("0"));
 					}
 				}
-			});
+			}
+			valorNuevo.setText(String.valueOf(threes.getValorNuevaFicha()));			
 		}
-
-		/**
-		 * Create the application.
-		 */
-		public VentanaPrincipal() {
+		
+		public void verificarJuegoTerminado() {
+			if(!threes.quedanMovimientos()) {
+				threes.sumarPuntaje();
+				VentanaJuegoTerminado window = new VentanaJuegoTerminado(threes);
+				window.setVisible(true);
+			}
+		}	
+		
+		public VentanaPrincipal(Threes juego) {
+			this.threes = juego;
 			initialize();
 		}	
 		
 		private void initialize() {
 			frame = new JFrame();
-			frame.setBounds(100, 100, 680, 501);
+			frame.setBounds(100, 100, 532, 501);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.getContentPane().setLayout(null);
 			
@@ -104,14 +80,21 @@ public class VentanaPrincipal {
 		    int espacioX = 70; 
 		    int espacioY = 71; 
 
-		    JTextPane[][] jPanes = new JTextPane[filas][columnas];
+		    JLabel[][] jPanes = new JLabel[filas][columnas];
 		    
 		    for (int f = 0; f < filas; f++) {
 		        for (int c = 0; c < columnas; c++) {
-		            JTextPane pane = new JTextPane();
+		            JLabel pane = new JLabel();
+		            pane.setHorizontalAlignment(SwingConstants.CENTER);
+		            pane.setVerticalAlignment(SwingConstants.CENTER);
 		            pane.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		            pane.setText(Matriz.getValorMatrizString(f,c));
-		            pane.setBackground(cambiarColor(pane.getText()));
+		            pane.setOpaque(true);
+		            if(threes.getValorFicha(f, c) != 0) {
+		            	pane.setText(String.valueOf(threes.getValorFicha(f, c)));
+		            	pane.setBackground(cambiarColor(pane.getText()));
+		            }else if(threes.getValorFicha(f, c) == 0){
+		            	pane.setBackground(cambiarColor("0"));
+		            }
 		            int x = margenX + c * espacioX;
 		            int y = margenY + f * espacioY;
 		            pane.setBounds(x, y, ancho, alto);
@@ -119,83 +102,73 @@ public class VentanaPrincipal {
 		            jPanes[f][c] = pane;
 		        }
 		    }
-
-			txtSiguienteNmero = new JTextField();
-			txtSiguienteNmero.setText("Siguiente Número:");
-			txtSiguienteNmero.setBounds(324, 62, 123, 20);
-			frame.getContentPane().add(txtSiguienteNmero);
-			txtSiguienteNmero.setColumns(10);
 			
-			JTextPane valorSiguienteNumero = new JTextPane();
-			valorSiguienteNumero.setText(String.valueOf(nuevoValor));
-			valorSiguienteNumero.setBounds(468, 34, 44, 48);
-			frame.getContentPane().add(valorSiguienteNumero);
-			
-			textoPuntaje = new JTextField();
-			textoPuntaje.setText("Puntaje:");
-			textoPuntaje.setBounds(324, 122, 123, 20);
-			frame.getContentPane().add(textoPuntaje);
-			textoPuntaje.setColumns(10);
-			
-			JTextPane valorPuntaje = new JTextPane();
-			valorPuntaje.setText("0");
-			valorPuntaje.setBounds(468, 94, 44, 48);
-			frame.getContentPane().add(valorPuntaje);
-			
-			JButton botonHistorialPuntajes = new JButton("Puntajes");
+			JButton botonHistorialPuntajes = new JButton("Historial de puntajes");
 			botonHistorialPuntajes.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					VentanaDePuntajes window = new VentanaDePuntajes();
+					VentanaDePuntajes window = new VentanaDePuntajes(threes);
 					window.setVisible(true);
 					
 				}
 			});
 			
-			botonHistorialPuntajes.setBounds(324, 190, 89, 23);
+			botonHistorialPuntajes.setBounds(304, 105, 156, 23);
 			frame.getContentPane().add(botonHistorialPuntajes);
+			
+			JLabel SiguienteNumero = new JLabel("Siguiente Numero:");
+			SiguienteNumero.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			SiguienteNumero.setBounds(304, 55, 122, 23);
+			frame.getContentPane().add(SiguienteNumero);
+			
+			JLabel ProxNum = new JLabel("New label");
+			ProxNum.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			ProxNum.setBounds(436, 56, 75, 20);
+			ProxNum.setText(String.valueOf(threes.getValorNuevaFicha()));
+			frame.getContentPane().add(ProxNum);
+				
 			
 			JButton botonReiniciar = new JButton("Reiniciar Tablero");
 			botonReiniciar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					Matriz.reiniciarTablero();
-					Puntaje.reiniciarPuntaje();
-					actualizarInterfaz(jPanes, valorSiguienteNumero, valorPuntaje);
-					haySiguienteMovimiento = true;
+					threes.reiniciarJuego();
+					actualizarInterfaz(jPanes, ProxNum);
 				}
 			});
-			botonReiniciar.setBounds(324, 247, 136, 23);
+			botonReiniciar.setBounds(304, 162, 156, 23);
 			frame.getContentPane().add(botonReiniciar);
 			
-			JLabel lblNewLabel = new JLabel("Presione ↑ para desplazar las fichas hacia arriba");
-			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblNewLabel.setBounds(324, 281, 330, 36);
+			JLabel lblNewLabel = new JLabel("Intrucciones para jugar:");
+			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblNewLabel.setBounds(10, 312, 164, 23);
 			frame.getContentPane().add(lblNewLabel);
 			
-			JLabel lblPresionePara = new JLabel("Presione ↓ para desplazar las fichas hacia abajo");
-			lblPresionePara.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblPresionePara.setBounds(324, 315, 330, 36);
-			frame.getContentPane().add(lblPresionePara);
+			JLabel lblNewLabel_1 = new JLabel("Presion la flecha arriba (↑) para mover las fichas hacia arriba");
+			lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblNewLabel_1.setBounds(10, 336, 350, 32);
+			frame.getContentPane().add(lblNewLabel_1);
 			
-			JLabel lblPresionePara_2 = new JLabel("Presione → para desplazar las fichas hacia la derecha");
-			lblPresionePara_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblPresionePara_2.setBounds(324, 346, 330, 36);
-			frame.getContentPane().add(lblPresionePara_2);
+			JLabel lblNewLabel_1_1 = new JLabel("Presion la flecha abajo (↓) para mover las fichas hacia abajo");
+			lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblNewLabel_1_1.setBounds(10, 357, 350, 32);
+			frame.getContentPane().add(lblNewLabel_1_1);
 			
-			JLabel lblPresionePara_2_1 = new JLabel("Presione ← para desplazar las fichas hacia la izquierda");
-			lblPresionePara_2_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-			lblPresionePara_2_1.setBounds(324, 380, 330, 36);
-			frame.getContentPane().add(lblPresionePara_2_1);
-				
+			JLabel lblNewLabel_1_1_1 = new JLabel("Presion la flecha derecha (→) para mover las fichas hacia la derecha");
+			lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblNewLabel_1_1_1.setBounds(10, 379, 370, 32);
+			frame.getContentPane().add(lblNewLabel_1_1_1);
+			
+			JLabel lblNewLabel_1_1_1_1 = new JLabel("Presion la flecha izquierda(←) para mover las fichas hacia la izquierda");
+			lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblNewLabel_1_1_1_1.setBounds(10, 400, 370, 32);
+			frame.getContentPane().add(lblNewLabel_1_1_1_1);
+			
 			Action flechaArriba = new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if(haySiguienteMovimiento) {
-						Matriz.moverPorFilasArriba(Matriz.getMatriz(), nuevoValor);
-						actualizarInterfaz(jPanes, valorSiguienteNumero, valorPuntaje);
-						haySiguienteMovimiento = Matriz.hayMovimientosDisponibles(Matriz.getMatriz());
-					}if(!haySiguienteMovimiento) {
-					llamarVentanaJuegoTerminado();
-					}
+					if(threes.quedanMovimientos()) {
+						threes.moverPorFilasArriba();
+						actualizarInterfaz(jPanes, ProxNum);
+					}verificarJuegoTerminado();
 				}
 			};
 			
@@ -207,13 +180,10 @@ public class VentanaPrincipal {
 			Action flechaAbajo = new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if(haySiguienteMovimiento) {
-						Matriz.moverPorFilasAbajo(Matriz.getMatriz(), nuevoValor);
-						actualizarInterfaz(jPanes, valorSiguienteNumero, valorPuntaje);
-						haySiguienteMovimiento = Matriz.hayMovimientosDisponibles(Matriz.getMatriz());
-					}if(!haySiguienteMovimiento) {
-						llamarVentanaJuegoTerminado();
-				}
+					if(threes.quedanMovimientos()) {
+						threes.moverPorFilasAbajo();
+						actualizarInterfaz(jPanes, ProxNum);
+					}verificarJuegoTerminado();
 				}
 			};		
 			
@@ -225,13 +195,10 @@ public class VentanaPrincipal {
 			Action flechaDerecha = new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if(haySiguienteMovimiento) {
-						Matriz.moverPorColumnasDerecha(Matriz.getMatriz(), nuevoValor);
-						actualizarInterfaz(jPanes, valorSiguienteNumero, valorPuntaje);
-						haySiguienteMovimiento = Matriz.hayMovimientosDisponibles(Matriz.getMatriz());
-					}if(!haySiguienteMovimiento) {
-						llamarVentanaJuegoTerminado();
-					}
+					if(threes.quedanMovimientos()) {
+						threes.moverPorColumnasDerecha();
+						actualizarInterfaz(jPanes, ProxNum);
+					}verificarJuegoTerminado();
 				}
 			};		
 			
@@ -243,13 +210,10 @@ public class VentanaPrincipal {
 			Action flechaIzquierda = new AbstractAction() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					if(haySiguienteMovimiento) {
-						Matriz.moverPorColumnasIzquierda(Matriz.getMatriz(), nuevoValor);
-						actualizarInterfaz(jPanes, valorSiguienteNumero, valorPuntaje);
-						haySiguienteMovimiento = Matriz.hayMovimientosDisponibles(Matriz.getMatriz());
-					}if(!haySiguienteMovimiento) {
-						llamarVentanaJuegoTerminado();
-					}
+					if(threes.quedanMovimientos()) {
+						threes.moverPorColumnasIzquierda();
+						actualizarInterfaz(jPanes, ProxNum);
+					}verificarJuegoTerminado();
 				}
 			};		
 			

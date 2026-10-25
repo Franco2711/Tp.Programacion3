@@ -13,37 +13,19 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
-
 public class VentanaJuegoTerminado extends JFrame {
 
 	private JFrame frame;
-	private JTextField nombre;	
+	private JTextField nombre;
+	private Threes threes;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaJuegoTerminado window = new VentanaJuegoTerminado();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public VentanaJuegoTerminado() {
+	public VentanaJuegoTerminado(Threes threes) {
+		this.threes = threes;
 		initialize();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
-		JLabel juegoTerminado = new JLabel("Juego terminado! Su puntaje es: " + Puntaje.getPuntaje());
+		JLabel juegoTerminado = new JLabel("Juego terminado! Su puntaje es: " + threes.getPuntaje());
 		juegoTerminado.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		juegoTerminado.setBounds(10, 11, 291, 25);
 		getContentPane().add(juegoTerminado);
@@ -67,7 +49,7 @@ public class VentanaJuegoTerminado extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(nombre.getText().length() > 0) {
-					Puntaje.actualizarTablaDePuntajes(nombre.getText(), Puntaje.getPuntajeString());
+					threes.actualizarTablaDePuntajes(nombre.getText(), threes.getPuntaje());
 					dispose();
 				}					
 			}		
