@@ -39,23 +39,24 @@ public class Threes {
 		return puntaje;
 	}
 	
-	public void actualizarPuntajes(int puntaje, int ubicacion) {
+	public int buscarPosicionEnTabla(int puntaje) {
+		int posicion = 0;
 		for(int i = 0; i < tablaDePuntajesPuntos.length; i++) {
-			if(i == ubicacion) {
-				tablaDePuntajesPuntos[i] = puntaje;
+			if(puntaje > tablaDePuntajesPuntos[i]) {
+				posicion = i;
+				break;
 			}
-		}
+		}return posicion;
 	}
 	
 	public void actualizarTablaDePuntajes(String nombre, int puntaje) {
-		int ubicacion = 0;
-		for(int i = 0; i < tablaDePuntajesPuntos.length; i++) {
-			if(puntaje > tablaDePuntajesPuntos[i]) {
-				ubicacion = i;
-				break;
-			}
-		}tablaDePuntajesPuntos[ubicacion] = puntaje;
-		tablaDePuntajesNombres[ubicacion] = nombre;
+		int posicion = buscarPosicionEnTabla(puntaje);
+		for (int i = tablaDePuntajesPuntos.length - 1; i > posicion; i--) {
+			tablaDePuntajesPuntos[i] = tablaDePuntajesPuntos[i - 1];
+			tablaDePuntajesNombres[i] = tablaDePuntajesNombres[i - 1];
+	    }
+		tablaDePuntajesPuntos[posicion] = puntaje;
+		tablaDePuntajesNombres[posicion] = nombre;
 	}
 	
 	public String getNombrePuntaje(int posicion) {
