@@ -3,6 +3,9 @@ package tpProgra3;
 import java.util.LinkedList;
 import java.util.Random;
 
+//import tpProgra3Vista.VentanaJuegoTerminado;
+//import tpProgra3Vista.VentanaPrincipal;
+
 public class Threes {
 	
 	private int valorNuevaFicha = nuevoNumeroAInsertar();
@@ -14,11 +17,11 @@ public class Threes {
 	
 	public Threes() {
 		this.matriz = new Matriz();
-		iniciarMatriz(matriz);
+		matriz.iniciarMatriz();
 	}
 	
 	public void reiniciarJuego() {
-		iniciarMatriz(matriz);
+		matriz.iniciarMatriz();
 		puntaje = 0;
 		hayMovimientos = true;
 	}
@@ -27,16 +30,37 @@ public class Threes {
 		return hayMovimientos = hayMovimientosDisponibles();
 	}
 	
+	public int obtenerExponente(int ficha) {
+		int exponente = 1;
+		int valor = ficha;
+		while(valor !=3) {
+			valor = valor / 2;
+			exponente++;
+		}return exponente;
+	}
+	
 	public void sumarPuntaje() {
+		int exponente = 0;
 		for(int f = 0; f < matriz.getLargoFilasMatriz(); f++) {
 			for(int c = 0; c < matriz.getLargoColumnasMatriz(); c++) {
-				puntaje = puntaje + matriz.getValor(f, c);
+				if(matriz.getValor(f, c) != 1 && matriz.getValor(f, c) != 2) {
+					exponente = obtenerExponente(matriz.getValor(f, c));
+					puntaje += Math.pow(3, exponente);
+				}
 			}
 		}
 	}
 	
 	public int getPuntaje() {
 		return puntaje;
+	}
+	
+	public void actualizarPuntaje(int puntaje, int ubicacion) {
+		for(int i = 0; i < tablaDePuntajesPuntos.length; i++) {
+			if(i == ubicacion) {
+				tablaDePuntajesPuntos[i] = puntaje;
+			}
+		}
 	}
 	
 	public int buscarPosicionEnTabla(int puntaje) {
@@ -246,32 +270,6 @@ public class Threes {
 			}
 		}valoresColumnaACero(3);
 		insertarNuevaFichaEnColumna(3);
-	}
-	
-	public void iniciarMatriz(Matriz m) {
-		for(int f = 0; f < m.getLargoFilasMatriz(); f++) {
-			for(int c = 0; c < m.getLargoColumnasMatriz(); c++) {
-				if(f == 0 && c == 1) {
-					m.setValor(f, c, 1);
-				}else if((f == 1 && c == 1) || (f == 1 && c == 2)) {
-					m.setValor(f, c, 2);
-				}else if((f == 2 && c == 1) || (f == 2 && c == 2)) {
-					m.setValor(f, c, 1);
-				}else if(f == 3 && c == 1) {
-					m.setValor(f, c, 2);
-				}else {
-					m.setValor(f, c, 0);
-				}
-			}
-		}
-	}
-	
-	public static void main(String[] args) {
-		
-		Threes threes = new Threes();
-		VentanaPrincipal nuevaVentana = new VentanaPrincipal(threes);
-		//nuevaVentana.setVisible(true);
-
 	}
 
 }

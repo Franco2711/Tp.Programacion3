@@ -4,7 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-
+//import tpProgra3.Threes;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComponent;
@@ -63,9 +63,6 @@ public class VentanaJuegoTerminado extends JFrame {
 		
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		setBounds(100, 100, 443, 273);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
